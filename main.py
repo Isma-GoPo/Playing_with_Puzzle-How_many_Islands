@@ -1,5 +1,6 @@
 # functions
 def is_in_map(i, j, grid) -> bool:
+    """Returns True if i,j are valid index for grid (are inside the map)"""
     if (0 <= i < len(grid) and 
         0 <= j < len(grid[0]) ):
         return True
@@ -7,7 +8,7 @@ def is_in_map(i, j, grid) -> bool:
         return False
 
 def is_land(i, j, grid) -> bool:
-    """True if is land, False if is water or outside the map"""
+    """Returns True if is land, False if is water or outside the map"""
     if not is_in_map(i, j, grid):
         return False
     if grid[i][j] == "1":
@@ -16,6 +17,7 @@ def is_land(i, j, grid) -> bool:
         return False # If it is "0" it is water
 
 def delete_land_and_adjacent(i, j, grid) -> None:
+    """Turns the land and its adjacent lands to water recursively"""
     if not is_land(i, j, grid):
         return
     
@@ -28,13 +30,12 @@ def delete_land_and_adjacent(i, j, grid) -> None:
     delete_land_and_adjacent(i, j+1, grid)
 
 # main
-def count_islands(grid: list[list[str]]):
+def count_islands(grid: list[list[str]]) -> int:
+    """main function, returns the number of islands (disconnections of horizontal/vertically adjacent lands)"""
     number_of_islands = 0
 
-    m = len(grid)
-    n = len(grid[0])
-    for i in range(m):
-        for j in range(n):
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
             if is_land(i,j, grid):
                 delete_land_and_adjacent(i,j, grid) 
                 number_of_islands += 1
